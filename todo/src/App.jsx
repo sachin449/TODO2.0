@@ -1,5 +1,7 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
+import AddTodo from "../src/component/AddTodo";
+
 
 // Utility to get current date string in YYYY-MM-DD format
 const getTodayDateString = () => {
@@ -65,24 +67,15 @@ const App = () => {
       <h1 className="text-2xl font-bold mb-4">Todo App - {selectedDate}</h1>
 
       {/* Add Todo Input */}
-      <div className="flex gap-2 mb-4">
-        <input
-          type="text"
-          placeholder="Add new todo"
-          className="flex-grow border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          value={newTodoText}
-          onChange={(e) => setNewTodoText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleAddTodo();
-          }}
-        />
-        <button
-          onClick={handleAddTodo}
-          className="bg-indigo-600 text-white px-4 rounded hover:bg-indigo-700"
-        >
-          Add
-        </button>
-      </div>
+      <AddTodo onAdd={(text) => {
+  const newTodo = { id: Date.now(), title: text, status: "pending", createdAt: new Date().toISOString() };
+  const updated = [...todos, newTodo];
+  setTodos(updated);
+  saveTodosForDate(selectedDate, updated);
+}} />     
+
+
+
 
       {/* Todo List */}
       <ul>
